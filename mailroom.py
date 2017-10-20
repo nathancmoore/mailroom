@@ -18,7 +18,7 @@ def generate_donor_names():
     return donor_names
 
 
-def generates_donations(donor_name_list):
+def generate_donations(donor_name_list):
     """Randomly generate 1-10 random donations and store them as lists."""
     import random
 
@@ -33,3 +33,13 @@ def generates_donations(donor_name_list):
         all_donations.append(donations)
 
     return all_donations
+
+
+def build_dictionary():
+    """Write keys and values to the dictionary."""
+    names = generate_donor_names()
+    donations = generate_donations(names)
+    for i in range(100):
+        donors[names[i]] = donations[i]
+
+    print(donors)
