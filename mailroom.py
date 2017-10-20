@@ -3,6 +3,7 @@
 Also contains commands to see a list of donors, quit, or
  start over the process.
 """
+from builtins import input
 
 donors = {}
 
@@ -49,7 +50,7 @@ def build_dictionary():
 
 def init_thankyous():
     """Write something here."""
-    last_input = raw_input("To write a thank you, enter the donor's full name (case sensitive).\nTo see a list of all donors, enter list. \n\n >>>>Make your selection: ")
+    last_input = input("To write a thank you, enter the donor's full name (case sensitive).\nTo see a list of all donors, enter list. \n\n >>>>Make your selection: ")
 
     if last_input.lower() == "list":
         for donor in donors:
@@ -65,12 +66,29 @@ def init_thankyous():
         init_thankyous()
 
     elif last_input in donors.keys():
-        amount = ask_for_amount()
-        donors[last_input].append(amount)
+        ask_for_amount(last_input)
 
     else:
-        amount = ask_for_amount()
-        donors[last_input] = [amount]
+        donors[last_input] = []
+        ask_for_amount(last_input)
+
+
+def ask_for_amount(donor):
+    """Function that asks the user for donation amount."""
+    last_input = input("Please enter donation amount: $")
+
+    if last_input.isnumeric():
+        donors[donor].append(last_input)
+        compose_thank_you_message(donor, last_input)
+    else:
+        print("Invalid Entry. Read the instructions carefully!")
+        ask_for_amount()
+
+
+def compose_thank_you_message(donor, amount):
+    """Function to create the thank you message."""
+    donor_name = donors[donor]
+    print("Thank you {} for your donation of ${}".format(donor, amount))
 
 
 def init_report():
@@ -86,7 +104,7 @@ def init_report():
 
 def init_prompts():
     """User chooses whether to write thank yous or see report."""
-    last_input = raw_input("\n\n\n\nTo write thank yous, enter 1. \nTo see a report, enter 2.\n\n >>>>Make your selection: ")
+    last_input = input("\n\n\n\nTo write thank yous, enter 1. \nTo see a report, enter 2.\n\n >>>>Make your selection: ")
 
     if int(last_input) == 1:
         init_thankyous()
