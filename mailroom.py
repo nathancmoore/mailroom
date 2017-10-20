@@ -45,16 +45,29 @@ def build_dictionary():
         donors[names[i]] = donations[i]
 
 
+def init_thankyous():
+    """Write something here."""
+
+
+def init_report():
+    """Write something here."""
+    for donor in donors:
+        readable_donation_list = donors[donor]
+        print("{}: {}".format(donor, readable_donation_list))
+
+    init_prompts()
+
+
 def init_prompts():
     """User chooses whether to write thank yous or see report."""
-    last_input = raw_input("To write thank yous, enter 1. \nTo see a report, enter 2.\n\n >>>>Make your selection:  ")
-
-    print(last_input)
+    last_input = raw_input("\n\n\n\nTo write thank yous, enter 1. \nTo see a report, enter 2.\n\n >>>>Make your selection:  ")
 
     if int(last_input) == 1:
         init_thankyous()
+
     elif int(last_input) == 2:
         init_report()
+
     else:
         print("Invalid Entry. Read the instructions carefully!")
         init_prompts()
