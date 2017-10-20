@@ -3,6 +3,7 @@
 Also contains commands to see a list of donors, quit, or
  start over the process.
 """
+from builtins import input
 
 donors = {}
 
@@ -60,7 +61,8 @@ def init_report():
 
 def init_prompts():
     """User chooses whether to write thank yous or see report."""
-    last_input = raw_input("\n\n\n\nTo write thank yous, enter 1. \nTo see a report, enter 2.\n\n >>>>Make your selection:  ")
+
+    last_input = input("\n\n\n\nTo write thank yous, enter 1. \nTo see a report, enter 2.\n\n >>>>Make your selection:  ")
 
     if int(last_input) == 1:
         init_thankyous()
