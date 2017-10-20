@@ -3,7 +3,6 @@
 Also contains commands to see a list of donors, quit, or
  start over the process.
 """
-from builtins import input
 
 donors = {}
 
@@ -15,8 +14,10 @@ def generate_donor_names():
     from faker import Factory
     donor_names = []
 
-    for i in range(100):
-        donor_names.append(Factory.create().name())
+    for i in range(20):
+        raw_name = Factory.create().name().split()
+        usable_name = raw_name[0] + " " + raw_name[1]
+        donor_names.append(usable_name)
 
     return donor_names
 
@@ -42,12 +43,34 @@ def build_dictionary():
     """Write keys and values to the dictionary."""
     names = generate_donor_names()
     donations = generate_donations(names)
-    for i in range(100):
+    for i in range(20):
         donors[names[i]] = donations[i]
 
 
 def init_thankyous():
     """Write something here."""
+    last_input = raw_input("To write a thank you, enter the donor's full name (case sensitive).\nTo see a list of all donors, enter list. \n\n >>>>Make your selection: ")
+
+    if last_input.lower() == "list":
+        for donor in donors:
+            print(donor)
+
+        print("\n\n\n")
+
+        init_thankyous()
+
+    elif len(last_input.split()) != 2:
+        print("Invalid Entry. Read the instructions carefully!")
+
+        init_thankyous()
+
+    elif last_input in donors.keys():
+        amount = ask_for_amount()
+        donors[last_input].append(amount)
+
+    else:
+        amount = ask_for_amount()
+        donors[last_input] = [amount]
 
 
 def init_report():
@@ -63,8 +86,7 @@ def init_report():
 
 def init_prompts():
     """User chooses whether to write thank yous or see report."""
-
-    last_input = input("\n\n\n\nTo write thank yous, enter 1. \nTo see a report, enter 2.\n\n >>>>Make your selection:  ")
+    last_input = raw_input("\n\n\n\nTo write thank yous, enter 1. \nTo see a report, enter 2.\n\n >>>>Make your selection: ")
 
     if int(last_input) == 1:
         init_thankyous()
