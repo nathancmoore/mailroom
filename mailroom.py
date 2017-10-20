@@ -6,6 +6,8 @@ Also contains commands to see a list of donors, quit, or
 
 donors = {}
 
+last_input = ""
+
 
 def generate_donor_names():
     """Use Faker to create a list of fake donors."""
@@ -42,4 +44,22 @@ def build_dictionary():
     for i in range(100):
         donors[names[i]] = donations[i]
 
-    print(donors)
+
+def init_prompts():
+    """User chooses whether to write thank yous or see report."""
+    last_input = str(input("To write thank yous, enter 1. \nTo see a report, enter 2.\n\n Make your selection:  "))
+
+    print(last_input)
+
+    if last_input == 1:
+        init_thankyous()
+    elif last_input == 2:
+        init_report()
+    else:
+        print("Invalid Entry. Read the instructions carefully!")
+        init_prompts()
+
+
+if __name__ == "__main__":
+    build_dictionary()
+    init_prompts()
