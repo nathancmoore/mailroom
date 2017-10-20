@@ -53,8 +53,10 @@ def init_thankyous():
 def init_report():
     """Write something here."""
     for donor in donors:
-        readable_donation_list = donors[donor]
-        print("{}: {}".format(donor, readable_donation_list))
+        donation_list = donors[donor]
+        total_donations = sum(donors[donor])
+        average_donation = total_donations / len(donors[donor])
+        print("{}:\nTotal donations: {}\nList of donations: {}\nAverage donation: {}\n".format(donor, total_donations, donation_list, average_donation))
 
     init_prompts()
 
