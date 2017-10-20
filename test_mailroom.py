@@ -3,6 +3,7 @@
 
 import pytest
 
+
 def test_generated_donor_names():
     """Test that random names are generated."""
     from mailroom import generate_donor_names
@@ -16,3 +17,18 @@ def test_names_are_strings():
     donor_names = generate_donor_names()
     for name in donor_names:
         assert type(name) == str
+
+
+def test_random_donation_amounts():
+    """Test that random amounts are created for donations."""
+    from mailroom import generate_donations
+    donations = generate_donations(['bill', 'bob', 'joe'])
+    assert len(donations) != 0
+
+
+def test_multiple_donation_amounts():
+    """Test that each donor has multiple donation amounts."""
+    from mailroom import generate_donations
+    donations = generate_donations(['bill', 'bob', 'joe'])
+    for i in range(len(donations)):
+        assert donations[i] != 0
