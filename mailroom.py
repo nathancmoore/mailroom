@@ -78,7 +78,7 @@ def ask_for_amount(donor):
     last_input = input("Please enter donation amount: $")
 
     if last_input.isnumeric():
-        donors[donor].append(last_input)
+        donors[donor].append(int(last_input))
         compose_thank_you_message(donor, last_input)
     else:
         print("Invalid Entry. Read the instructions carefully!")
@@ -89,17 +89,18 @@ def compose_thank_you_message(donor, amount):
     """Function to create the thank you message."""
     donor_name = donors[donor]
     print("Thank you {} for your donation of ${}".format(donor, amount))
+    init_prompts()
 
 
 def init_report():
     """Write something here."""
-    sort = sorted(donors.items(), key=lambda x: sum(x[1]))
-    print(sort)
-    for donor in sort:
-        donation_list = list(donor)[1:]
-        total_donations = sum(list(donor)[1:])
-        average_donation = total_donations / len(list(donor)[1:])
-        print("{}:\nTotal donations: {}\nList of donations: {}\nAverage donation: {}\n".format(donor, total_donations, donation_list, average_donation))
+    for idx, donor in enumerate(donors):
+        donation_list = donors[donor]
+        total_donations = sum(donors[donor])
+        average_donation = total_donations / len(donors[donor])
+        sort = sorted(donors.items(), key=lambda x: sum(x[1]), reverse=True)
+        print("Name: {} \n List of Donations: {} \n Total: {} \n Average: {}".format(sort[idx][0], sort[idx][1], sum(sort[idx][1]), sum(sort[idx][1]) / len(sort[idx][1])))
+        # print("{}:\nTotal donations: {}\nList of donations: {}\nAverage donation: {}\n".format(donor, total_donations, donation_list, average_donation))
 
     init_prompts()
 
