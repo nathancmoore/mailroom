@@ -4,6 +4,7 @@ Also contains commands to see a list of donors, quit, or
  start over the process.
 """
 from builtins import input
+from terminaltables import AsciiTable
 
 donors = {}
 
@@ -49,8 +50,10 @@ def build_dictionary():
 
 
 def init_thankyous():
-    """Write something here."""
-    last_input = input("To write a thank you, enter the donor's full name (case sensitive).\nTo see a list of all donors, enter list. \n\n >>>>Make your selection: ")
+    """Prompts the user for full name or to request a list."""
+    last_input = input("To write a thank you, enter the donor's full name \
+        (case sensitive).\nTo see a list of all donors, enter list. \
+        \n\n >>>>Make your selection: ")
 
     if last_input.lower() == "list":
         for donor in donors:
@@ -93,21 +96,28 @@ def compose_thank_you_message(donor, amount):
 
 
 def init_report():
-    """Write something here."""
+    """Creates a table showing donation histories."""
+    table_data = [
+        ['Name', 'Amount', 'Total', 'Average'],
+        ]
+
     for idx, donor in enumerate(donors):
         donation_list = donors[donor]
         total_donations = sum(donors[donor])
         average_donation = total_donations / len(donors[donor])
         sort = sorted(donors.items(), key=lambda x: sum(x[1]), reverse=True)
-        print("Name: {} \n List of Donations: {} \n Total: {} \n Average: {}".format(sort[idx][0], sort[idx][1], sum(sort[idx][1]), sum(sort[idx][1]) / len(sort[idx][1])))
-        # print("{}:\nTotal donations: {}\nList of donations: {}\nAverage donation: {}\n".format(donor, total_donations, donation_list, average_donation))
-
+        table_data.append(
+            [sort[idx][0], sort[idx][1], sum(sort[idx][1]),
+             sum(sort[idx][1]) / len(sort[idx][1])])
+    table = AsciiTable(table_data)
+    print(table.table)
     init_prompts()
 
 
 def init_prompts():
     """User chooses whether to write thank yous or see report."""
-    last_input = input("\n\n\n\nTo write thank yous, enter 1. \nTo see a report, enter 2.\n\n >>>>Make your selection: ")
+    last_input = input("\n\n\n\nTo write thank yous, enter 1. \
+        \nTo see a report, enter 2.\n\n >>>>Make your selection: ")
 
     if int(last_input) == 1:
         init_thankyous()

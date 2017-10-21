@@ -5,7 +5,6 @@ setup(
     description="Command-line script used to track donations and \
     write thank you notes.",
     py_modules=['mailroom'],
-    package_dir={'mailroom'},
-    install_requires=[],
+    install_requires=['builtins', 'terminaltables', 'faker'],
     extras_require={'test': ['pytest', 'pytest-watch', 'tox']},
     )
