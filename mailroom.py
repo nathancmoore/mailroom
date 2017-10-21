@@ -93,10 +93,12 @@ def compose_thank_you_message(donor, amount):
 
 def init_report():
     """Write something here."""
-    for donor in donors:
-        donation_list = donors[donor]
-        total_donations = sum(donors[donor])
-        average_donation = total_donations / len(donors[donor])
+    sort = sorted(donors.items(), key=lambda x: sum(x[1]))
+    print(sort)
+    for donor in sort:
+        donation_list = list(donor)[1:]
+        total_donations = sum(list(donor)[1:])
+        average_donation = total_donations / len(list(donor)[1:])
         print("{}:\nTotal donations: {}\nList of donations: {}\nAverage donation: {}\n".format(donor, total_donations, donation_list, average_donation))
 
     init_prompts()
