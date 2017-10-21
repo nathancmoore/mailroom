@@ -5,6 +5,7 @@ Also contains commands to see a list of donors, quit, or
 """
 from builtins import input
 from terminaltables import AsciiTable
+import os
 
 donors = {}
 
@@ -54,13 +55,9 @@ def init_thankyous():
     last_input = input("To write a thank you, enter the donor's full name \
         (case sensitive).\nTo see a list of all donors, enter list. \
         \n\n >>>>Make your selection: ")
-
     if last_input.lower() == "list":
         for donor in donors:
             print(donor)
-
-        print("\n\n\n")
-
         init_thankyous()
 
     elif len(last_input.split()) != 2:
@@ -70,10 +67,12 @@ def init_thankyous():
 
     elif last_input in donors.keys():
         ask_for_amount(last_input)
+        os.system('clear')
 
     else:
         donors[last_input] = []
         ask_for_amount(last_input)
+        os.system('clear')
 
 
 def ask_for_amount(donor):
@@ -116,13 +115,14 @@ def init_report():
 
 def init_prompts():
     """User chooses whether to write thank yous or see report."""
-    last_input = input("\n\n\n\nTo write thank yous, enter 1. \
+    last_input = input("To write thank yous, enter 1. \
         \nTo see a report, enter 2.\n\n >>>>Make your selection: ")
-
     if int(last_input) == 1:
+        os.system('clear')
         init_thankyous()
 
     elif int(last_input) == 2:
+        os.system('clear')
         init_report()
 
     else:
@@ -131,5 +131,6 @@ def init_prompts():
 
 
 if __name__ == "__main__":
+    os.system('clear')
     build_dictionary()
     init_prompts()
