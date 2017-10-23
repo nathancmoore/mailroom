@@ -6,10 +6,19 @@ Also contains commands to see a list of donors, quit, or
 from builtins import input
 from terminaltables import AsciiTable
 import os
+import sys
 
 donors = {}
 
 last_input = ""
+
+
+def quit_or_restart(user_entry):
+    """Allow the user to restart the prompts or quit the app."""
+    if user_entry == "quit":
+        sys.exit()
+    if user_entry == "restart":
+        init_prompts()
 
 
 def generate_donor_names():
@@ -51,10 +60,11 @@ def build_dictionary():
 
 
 def init_thankyous():
-    """Prompts the user for full name or to request a list."""
+    """Prompt the user for full name or to request a list."""
     last_input = input("To write a thank you, enter the donor's full name \
         (case sensitive).\nTo see a list of all donors, enter list. \
         \n\n >>>>Make your selection: ")
+    quit_or_restart(last_input)
     if last_input.lower() == "list":
         for donor in donors:
             print(donor)
@@ -78,6 +88,7 @@ def init_thankyous():
 def ask_for_amount(donor):
     """Function that asks the user for donation amount."""
     last_input = input("Please enter donation amount: $")
+    quit_or_restart(last_input)
 
     if last_input.isnumeric():
         donors[donor].append(int(last_input))
@@ -88,22 +99,18 @@ def ask_for_amount(donor):
 
 
 def compose_thank_you_message(donor, amount):
-    """Function to create the thank you message."""
-    donor_name = donors[donor]
+    """Create the thank you message."""
     print("Thank you {} for your donation of ${}".format(donor, amount))
     init_prompts()
 
 
 def init_report():
-    """Creates a table showing donation histories."""
+    """Create a table showing donation histories."""
     table_data = [
         ['Name', 'Amount', 'Total', 'Average'],
-        ]
+    ]
 
     for idx, donor in enumerate(donors):
-        donation_list = donors[donor]
-        total_donations = sum(donors[donor])
-        average_donation = total_donations / len(donors[donor])
         sort = sorted(donors.items(), key=lambda x: sum(x[1]), reverse=True)
         table_data.append(
             [sort[idx][0], sort[idx][1], sum(sort[idx][1]),
@@ -116,7 +123,10 @@ def init_report():
 def init_prompts():
     """User chooses whether to write thank yous or see report."""
     last_input = input("To write thank yous, enter 1. \
-        \nTo see a report, enter 2.\n\n >>>>Make your selection: ")
+        \nTo see a report, enter 2.\n\n At any time, enter quit to quit\n \
+        or restart to restart\n\n\n>>>>Make your selection: ")
+    quit_or_restart(last_input)
+
     if int(last_input) == 1:
         os.system('clear')
         init_thankyous()
