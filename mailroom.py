@@ -3,7 +3,7 @@
 Also contains commands to see a list of donors, quit, or
  start over the process.
 """
-from builtins import input
+
 from terminaltables import AsciiTable
 import os
 import sys
@@ -90,12 +90,18 @@ def ask_for_amount(donor):
     last_input = input("Please enter donation amount: $")
     quit_or_restart(last_input)
 
-    if last_input.isnumeric():
-        donors[donor].append(int(last_input))
+    try:
+        float(last_input)
+    except ValueError:
+        print("Invalid Entry. Read the instructions carefully!")
+        ask_for_amount(donor)
+
+    if float(last_input) > 0:
+        donors[donor].append(float(last_input))
         compose_thank_you_message(donor, last_input)
     else:
         print("Invalid Entry. Read the instructions carefully!")
-        ask_for_amount()
+        ask_for_amount(donor)
 
 
 def compose_thank_you_message(donor, amount):
@@ -127,11 +133,11 @@ def init_prompts():
         or restart to restart\n\n\n>>>>Make your selection: ")
     quit_or_restart(last_input)
 
-    if int(last_input) == 1:
+    if last_input == "1":
         os.system('clear')
         init_thankyous()
 
-    elif int(last_input) == 2:
+    elif last_input == "2":
         os.system('clear')
         init_report()
 
